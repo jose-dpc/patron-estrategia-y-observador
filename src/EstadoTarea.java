@@ -1,4 +1,4 @@
-public class  EstadoTarea {
+public class EstadoTarea {
 
         private String nombre;
     
@@ -12,7 +12,7 @@ public class  EstadoTarea {
             return nombre;
         }
     
-        // Estados predefinidos como constantes públicas
+        // Estados posibles de una tarea
         public static final EstadoTarea PENDIENTE = new EstadoTarea("Pendiente");
         public static final EstadoTarea EN_PROGRESO = new EstadoTarea("En progreso");
         public static final EstadoTarea COMPLETADA = new EstadoTarea("Completada");

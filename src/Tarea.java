@@ -3,11 +3,13 @@ import java.util.*;
 public class Tarea{
     private String nombre;
     private int prioridad;
+    private EstadoTarea estado;
  
  
     public Tarea(String nombre, int prioridad) {
         this.nombre = nombre;
         this.prioridad = prioridad;
+        this.estado = EstadoTarea.Pendiente;//
     }
  
  
