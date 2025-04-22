@@ -1,6 +1,6 @@
 import java.util.*;
 // Clase Tarea simple
-class Tarea {
+public class Tarea{
     private String nombre;
     private int prioridad;
  
