@@ -1,5 +1,5 @@
 import java.util.*;
-// Clase Gestor que usa una estrategia
+// Clase que agrega las tareas a un arreglo y llama la estrategia de ordenamiento
 class GestorDeTareas {
     private List<Tarea> tareas = new ArrayList<>();
     private EstrategiaOrdenamiento estrategia;
@@ -14,14 +14,14 @@ class GestorDeTareas {
         this.estrategia = estrategia;
     }
  
- 
+ //siempre y cuando estrategia tenga un valor, se llama EstrategiaOrdenamiento para el arreglo de tareas
     public void ordenarTareas() {
         if (estrategia != null) {
             estrategia.ordenar(tareas);
         }
     }
  
- 
+ //funcion que muestra cada 't' de tipo tarea
     public void mostrarTareas() {
         for (Tarea t : tareas) {
             System.out.println(t);

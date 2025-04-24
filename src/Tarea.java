@@ -12,7 +12,7 @@ public class Tarea{
     public Tarea(String nombre, int prioridad, EstadoTarea estado, LocalDate fechaEntrega) {
         this.nombre = nombre;
         this.prioridad = prioridad;
-        //el estado default de cada tarea que se agregue sera pendiente porque para que vas a agregar una tarea que ya completaste
+    //el estado default de cada tarea que se agregue sera pendiente porque para que vas a agregar una tarea que ya completaste
         this.estado = EstadoTarea.Pendiente;
         this.fechaEntrega = fechaEntrega;
     }
@@ -33,7 +33,7 @@ public class Tarea{
      public LocalDate getFechaEntrega() {
         return fechaEntrega;
     }
-    
+
     //va a imprimir cada uno de estos parameteros
     @Override
     public String toString() {
