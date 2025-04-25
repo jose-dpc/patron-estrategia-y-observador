@@ -4,6 +4,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ObservadorTareaGUI extends JFrame {
     private DefaultTableModel modeloTabla;
@@ -59,48 +62,15 @@ public class ObservadorTareaGUI extends JFrame {
         JScrollPane scroll = new JScrollPane(tablaTareas);
         add(scroll, BorderLayout.CENTER);
 
-        btnAgregar.addActionListener(e -> agregarTarea());
+        btnAgregar.addActionListener(e -> DialogosTarea.agregarTarea(this, modeloTabla));
+        btnEditar.addActionListener(e -> DialogosTarea.editarTarea(this, tablaTareas, modeloTabla));
         btnQuitar.addActionListener(e -> quitarTarea());
         btnVerCompletadas.addActionListener(e -> verCompletadas());
-        btnEditar.addActionListener(e -> editarTarea());
         comboOrdenar.addActionListener(
                 e -> JOptionPane.showMessageDialog(this, "Ordenar por: " + comboOrdenar.getSelectedItem()));
 
         cargarTareasDesdeBD();
         setVisible(true);
-    }
-
-    // Funciones para poder editar la interfaz
-
-    private void agregarTarea() {
-        JTextField campoNombre = new JTextField();
-        JTextField campoFecha = new JTextField();
-        JComboBox<String> comboPrioridad = new JComboBox<>(new String[] { "1", "2", "3", "4", "5" });
-        JComboBox<String> comboEstado = new JComboBox<>(new String[] { "Pendiente", "En progreso", "Completada" });
-
-        JPanel panel = new JPanel(new GridLayout(0, 1, 5, 5));
-        panel.add(new JLabel("Nombre de materia:"));
-        panel.add(campoNombre);
-        panel.add(new JLabel("Fecha de entrega (YYYY-MM-DD):"));
-        panel.add(campoFecha);
-        panel.add(new JLabel("Prioridad (1-5):"));
-        panel.add(comboPrioridad);
-        panel.add(new JLabel("Estado:"));
-        panel.add(comboEstado);
-
-        int result = JOptionPane.showConfirmDialog(this, panel, "Agregar Nueva Tarea", JOptionPane.OK_CANCEL_OPTION);
-
-        if (result == JOptionPane.OK_OPTION) {
-            modeloTabla.addRow(new Object[] {
-                    campoNombre.getText(),
-                    campoFecha.getText(),
-                    comboPrioridad.getSelectedItem(),
-                    comboEstado.getSelectedItem()
-            });
-            insertarTareaEnBD(campoNombre.getText(), campoFecha.getText(),
-                    Integer.parseInt(comboPrioridad.getSelectedItem().toString()),
-                    comboEstado.getSelectedItem().toString());
-        }
     }
 
     private void quitarTarea() {
@@ -112,46 +82,6 @@ public class ObservadorTareaGUI extends JFrame {
             modeloTabla.removeRow(fila);
         } else {
             JOptionPane.showMessageDialog(this, "Selecciona una tarea para eliminar.");
-        }
-    }
-
-    private void editarTarea() {
-        int fila = tablaTareas.getSelectedRow();
-        if (fila >= 0) {
-            String nombre = (String) modeloTabla.getValueAt(fila, 0);
-            String fechaActual = (String) modeloTabla.getValueAt(fila, 1);
-            String prioridadActual = modeloTabla.getValueAt(fila, 2).toString();
-            String estadoActual = (String) modeloTabla.getValueAt(fila, 3);
-
-            JTextField campoFecha = new JTextField(fechaActual);
-            JComboBox<String> comboPrioridad = new JComboBox<>(new String[] { "1", "2", "3", "4", "5" });
-            comboPrioridad.setSelectedItem(prioridadActual);
-            JComboBox<String> comboEstado = new JComboBox<>(new String[] { "Pendiente", "En progreso", "Completada" });
-            comboEstado.setSelectedItem(estadoActual);
-
-            JPanel panel = new JPanel(new GridLayout(0, 1));
-            panel.add(new JLabel("Nueva fecha de entrega:"));
-            panel.add(campoFecha);
-            panel.add(new JLabel("Nueva prioridad:"));
-            panel.add(comboPrioridad);
-            panel.add(new JLabel("Nuevo estado:"));
-            panel.add(comboEstado);
-
-            int result = JOptionPane.showConfirmDialog(this, panel, "Editar Tarea", JOptionPane.OK_CANCEL_OPTION);
-
-            if (result == JOptionPane.OK_OPTION) {
-                String nuevaFecha = campoFecha.getText();
-                int nuevaPrioridad = Integer.parseInt(comboPrioridad.getSelectedItem().toString());
-                String nuevoEstado = comboEstado.getSelectedItem().toString();
-
-                modeloTabla.setValueAt(nuevaFecha, fila, 1);
-                modeloTabla.setValueAt(nuevaPrioridad, fila, 2);
-                modeloTabla.setValueAt(nuevoEstado, fila, 3);
-
-                actualizarTareaEnBD(nombre, fechaActual, nuevaFecha, nuevaPrioridad, nuevoEstado);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecciona una tarea para editar.");
         }
     }
 
