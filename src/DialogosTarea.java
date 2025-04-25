@@ -91,7 +91,6 @@ public class DialogosTarea {
             return;
         }
 
-        String nombre = (String) modeloTabla.getValueAt(fila, 0);
         String fechaActual = (String) modeloTabla.getValueAt(fila, 1);
         String prioridadActual = modeloTabla.getValueAt(fila, 2).toString();
         String estadoActual = (String) modeloTabla.getValueAt(fila, 3);

@@ -2,11 +2,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class ObservadorTareaGUI extends JFrame {
     private DefaultTableModel modeloTabla;
@@ -125,22 +121,6 @@ public class ObservadorTareaGUI extends JFrame {
         }
     }
 
-    // Función que se encarga de editar las tareas y mandar las modificaciones
-    // dentro de la base de datos.
-    private void insertarTareaEnBD(String nombre, String fecha, int prioridad, String estado) {
-        try (Connection conn = ConexionSQLite.conectar()) {
-            String sql = "INSERT INTO tareas(nombre, fecha, prioridad, estado) VALUES(?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, nombre);
-            pstmt.setString(2, fecha);
-            pstmt.setInt(3, prioridad);
-            pstmt.setString(4, estado);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al guardar tarea: " + e.getMessage());
-        }
-    }
-
     private void eliminarTareaDeBD(String nombre, String fecha) {
         try (Connection conn = ConexionSQLite.conectar()) {
             String sql = "DELETE FROM tareas WHERE nombre = ? AND fecha = ?";
@@ -150,22 +130,6 @@ public class ObservadorTareaGUI extends JFrame {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al eliminar tarea: " + e.getMessage());
-        }
-    }
-
-    private void actualizarTareaEnBD(String nombre, String fechaAntigua, String nuevaFecha, int nuevaPrioridad,
-            String nuevoEstado) {
-        try (Connection conn = ConexionSQLite.conectar()) {
-            String sql = "UPDATE tareas SET fecha = ?, prioridad = ?, estado = ? WHERE nombre = ? AND fecha = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, nuevaFecha);
-            pstmt.setInt(2, nuevaPrioridad);
-            pstmt.setString(3, nuevoEstado);
-            pstmt.setString(4, nombre);
-            pstmt.setString(5, fechaAntigua);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al actualizar tarea: " + e.getMessage());
         }
     }
 
