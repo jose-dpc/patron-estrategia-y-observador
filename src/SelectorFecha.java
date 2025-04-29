@@ -11,9 +11,8 @@ public class SelectorFecha {
 
     public SelectorFecha() {
         this.calendar = new JCalendar();
-        // Ocultar la columna de número de semana para que no salga scroll horizontal
-        calendar.setWeekOfYearVisible(false);
-        // Forzar un tamaño razonable: ancho 300px, alto 200px (ajusta a tu gusto)
+        calendar.setWeekOfYearVisible(true); // Mostrar el número de semana
+        calendar.setTodayButtonVisible(true); // Botón para ir a hoy
         calendar.setPreferredSize(new Dimension(300, 200));
     }
 
